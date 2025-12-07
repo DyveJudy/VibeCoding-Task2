@@ -1,40 +1,464 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8" />
-  <title>小紫的作品集：個人網站、Side Project 與探索心得</title>
-  <meta name="description" content="你好，我是開發者新手小紫。這裡彙整了我的學習筆記、Side Project 實作心得，以及個人探索部落格，歡迎交流與合作！">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; max-width: 100%; }
-    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans TC", Arial, sans-serif; line-height: 1.6; }
-    img { max-width: 100%; height: auto; display: black; }
-    .container { max-width: 1440px; margin: 0 auto; padding: 16px; }
-    h1 {
-        color: purple; 
-    }
-    nav a { margin-right: 12px; text-decoration: none; }
-    .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
-    .col-12 { grid-column: span 12; }
-    @media (min-width: 768px) { .col-md-6 { grid-column: span 6; } }
-    .card { border: 1px solid #e5e7eb; border-radius: 12px; padding: 16px; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小紫 · 開發探索者 (Event Explorer)</title>
+    <meta name="description" content="歡迎來到小紫的個人品牌網站！這裡分享我的前進之路、Side Project 實作心得，並記錄在解鎖世界中的每一次探索與成長。">
+
+    <style>
+        /* ====================================================================== */
+        /* CSS:BASE-START */
+        /* ====================================================================== */
+        
+        /* 1. 全站共用設定 */
+        *, *::before, *::after { box-sizing: border-box; }
+        
+        /* 2. 頁面基底設定 (深色模式) */
+        html, body { 
+            margin: 0; 
+            padding: 0; 
+            background-color: #18181B; /* 深灰色背景 */
+            color: #E4E4E7; /* 淺灰色文字 */
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans TC", Arial, sans-serif; 
+            line-height: 1.6; 
+            scroll-behavior: smooth;
+        }
+
+        /* 3. 圖片基礎樣式：保證 RWD 且不造成水平捲動 */
+        img { 
+            max-width: 100%; 
+            height: auto; 
+            display: block; 
+            loading: lazy; /* 懶加載建議 */
+        }
+        
+        /* 4. 容器設定 */
+        .page {
+            max-width: 100%;
+        }
+        .container {
+            max-width: 1440px; /* 控制內容最大寬度 */
+            margin: 0 auto;
+            padding: 0 16px; /* 手機優先 padding */
+        }
+        
+        /* 5. 標題與連結基礎樣式 */
+        title { 
+            line-height: 1.8; 
+            color: #D8B4FE; /* 淺紫色標題 */
+        }
+        
+        h1 { 
+            line-height: 1.6; 
+            color: #D8B4FE; /* 淺紫色標題 */
+        }
+        
+        h2, h3 { 
+            line-height: 1.2; 
+            color: #D8B4FE; /* 淺紫色標題 */
+        }
+        
+        a {
+            color: #93C5FD; /* 淺藍紫色連結 */
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        a:hover {
+            color: #FBBF24; /* 橘色 hover 效果 */
+        }
+
+        /* 6. Section 通用間距 */
+        .section {
+            padding: 64px 0; /* 垂直間距 */
+            border-bottom: 1px solid #27272a; /* 淺灰色底線分隔 */
+        }
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 32px;
+            border-left: 5px solid #FBBF24; /* 橘色修飾線 */
+            padding-left: 12px;
+        }
+
+        /* ====================================================================== */
+        /* CSS:BASE-END */
+        /* ====================================================================== */
+
+
+        /* ====================================================================== */
+        /* CSS:NAV-START (導覽列樣式) */
+        /* ====================================================================== */
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000; /* 確保浮在最上層 */
+            background-color: #18181B; /* 與 body 背景一致 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #D8B4FE; /* 淺紫色 Logo */
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 16px;
+        }
+
+        .nav-link {
+            font-weight: 500;
+        }
+        /* ====================================================================== */
+        /* CSS:NAV-END */
+        /* ====================================================================== */
+
+
+        /* ====================================================================== */
+        /* CSS:HERO-START */
+        /* ====================================================================== */
+        .section-hero {
+            text-align: center;
+            padding: 80px 0;
+            background-color: #27272a; /* 略深一點的背景色 */
+        }
+        .section-hero h1 {
+            color: #93C5FD; /* Hero 區 H1 使用更亮的藍紫色 */
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+        .section-hero p {
+            max-width: 600px;
+            margin: 0 auto 24px;
+        }
+        .hero-image {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 32px auto 0;
+            border: 5px solid #D8B4FE;
+        }
+        /* ====================================================================== */
+        /* CSS:HERO-END */
+        /* ====================================================================== */
+
+
+        /* ====================================================================== */
+        /* CSS:ABOUT-START */
+        /* ====================================================================== */
+        .section-about .about-content-layout {
+            display: flex;
+            flex-direction: column; /* 手機優先：垂直堆疊 */
+            gap: 32px;
+            align-items: flex-start;
+        }
+
+        /* 圖片樣式調整 */
+        .section-about .about-content-image img {
+            border-radius: 8px;
+            object-fit: cover;
+            width: 100%;
+            height: auto;
+        }
+
+        /* 列表樣式 */
+        .section-about .strengths-title {
+            font-size: 1.25rem;
+            color: #FBBF24; /* 橘色修飾 */
+            margin-top: 24px;
+            margin-bottom: 8px;
+        }
+        .section-about .strengths-list {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 0;
+        }
+        .section-about .strengths-list li {
+            padding-left: 1.5em;
+            position: relative;
+            margin-bottom: 8px;
+        }
+        /* 列表修飾點：使用橘色 */
+        .section-about .strengths-list li::before {
+            content: "🚀"; 
+            color: #FBBF24; 
+            position: absolute;
+            left: 0;
+            font-size: 0.8em;
+        }
+
+        /* 按鈕容器 */
+        .section-about .about-actions {
+            display: flex;
+            flex-wrap: wrap; /* 避免按鈕在手機上溢出 */
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        /* 通用按鈕樣式 */
+        .section-about .btn {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            border: 2px solid transparent;
+        }
+
+        /* 主按鈕樣式 (使用 Link Color #93C5FD) */
+        .section-about .btn-primary {
+            background-color: #93C5FD; 
+            color: #18181B; /* 深色文字 */
+            border-color: #93C5FD;
+        }
+        .section-about .btn-primary:hover {
+            background-color: #60a5fa; /* 淺一點的藍色 */
+        }
+
+        /* 次要按鈕樣式 (使用 H3 Color #D8B4FE) */
+        .section-about .btn-secondary {
+            background-color: transparent;
+            color: #D8B4FE; 
+            border-color: #D8B4FE;
+        }
+        .section-about .btn-secondary:hover {
+            background-color: #D8B4FE1A; /* 淺紫色透明背景 */
+        }
+        /* ====================================================================== */
+        /* CSS:ABOUT-END */
+        /* ====================================================================== */
+
+
+        /* ====================================================================== */
+        /* CSS:SKILLS-START */
+        /* ====================================================================== */
+        .section-skills {
+            background-color: #1f1f21;
+        }
+        .skill-item {
+            padding: 16px;
+            border: 1px solid #3f3f46;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+        /* ====================================================================== */
+        /* CSS:SKILLS-END */
+        /* ====================================================================== */
+
+
+        /* ====================================================================== */
+        /* CSS:PROJECTS-START */
+        /* ====================================================================== */
+        .section-projects .project-card {
+            background-color: #27272a;
+            padding: 24px;
+            border-radius: 12px;
+            margin-top: 24px;
+        }
+        /* ====================================================================== */
+        /* CSS:PROJECTS-END */
+        /* ====================================================================== */
+
+
+        /* ====================================================================== */
+        /* CSS:CONTACT-START */
+        /* ====================================================================== */
+        .section-contact p {
+            max-width: 500px;
+            margin: 0 auto 16px;
+            text-align: center;
+        }
+        .contact-link-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+            margin-top: 32px;
+        }
+        .contact-link-group a {
+            display: block;
+            padding: 10px 20px;
+            border: 2px solid #D8B4FE;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        .contact-link-group a:hover {
+            background-color: #3f3f46;
+        }
+        /* ====================================================================== */
+        /* CSS:CONTACT-END */
+        /* ====================================================================== */
+
+
+        /* ====================================================================== */
+        /* CSS:RWD-START */
+        /* ====================================================================== */
+        @media (min-width: 768px) {
+            /* 導覽列 RWD 調整 */
+            .nav {
+                padding: 16px 32px;
+            }
+
+            /* 通用容器 RWD 調整 */
+            .container {
+                padding: 0 32px;
+            }
+
+            /* Section RWD 間距調整 */
+            .section {
+                padding: 80px 0;
+            }
+
+            /* About 區塊 RWD 調整：雙欄 (原本的占位規則被新的取代) */
+            /* .about-layout { 
+                display: grid;
+                grid-template-columns: 1fr 2fr;
+                gap: 32px;
+                align-items: center;
+            } 
+            */
+            
+            /* ✨ About 區塊 RWD 調整：圖像在右側的左右雙欄 (Text: 3/5, Image: 2/5) */
+            .section-about .about-content-layout {
+                flex-direction: row; /* 從上到下改為左到右 (Text -> Image) */
+                align-items: flex-start;
+            }
+            .section-about .about-content-text {
+                flex: 3; /* 文字佔 60% (3/5) */
+                padding-right: 32px;
+            }
+            .section-about .about-content-image {
+                flex: 2; /* 圖片佔 40% (2/5) */
+                flex-shrink: 0; 
+                max-width: 40%; /* 確保圖片區塊比例 */
+            }
+            
+            /* Projects 區塊 RWD 調整：卡片雙欄 */
+            .projects-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+        }
+        
+        @media (min-width: 1440px) {
+             /* Projects 區塊 RWD 調整：卡片三欄 */
+             .projects-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        /* ====================================================================== */
+        /* CSS:RWD-END */
+        /* ====================================================================== */
+    </style>
 </head>
 <body>
-  <header class="container" role="banner">
-    <nav aria-label="主選單">
-      <a href="#about">關於我</a>
-      <a href="#projects">作品集</a>
-      <a href="https://example.com/blog">探索Step by Step</a>
-      <a href="mailto:me@example.com">聯絡我</a>
-    </nav>
-    <h1>你好，我是小紫：開發者新手探索之路</h1>
-    <p>歡迎來到我的個人網站！這裡整理了學習紀錄、Side Project 與實作心得。</p>
-  </header>
+    <div class="page">
+        <header class="site-header">
+            <div class="nav container">
+                <div class="nav-logo">小紫 · Event Explorer</div>
+                <nav class="nav-links" aria-label="主要站點導覽">
+                    <a href="#hero" class="nav-link">首頁</a>
+                    <a href="#about" class="nav-link">關於我</a>
+                    <a href="#skills" class="nav-link">探索</a>
+                    <a href="#projects" class="nav-link">作品集</a>
+                    <a href="#contact" class="nav-link">聯絡我</a>
+                </nav>
+            </div>
+        </header>
 
-  <footer class="container" role="contentinfo">
-    <p>© 2025 My Portfolio · <a href="https://github.com/gonsakon">GitHub</a></p>
-    <img src="https://i.imgur.com/y44xiFa.png" alt="開發者作業流程圖，作為網站視覺點綴">
+        <main>
+            <section id="hero" class="section section-hero" aria-labelledby="hero-title">
+                <div class="container">
+                    <h1 id="hero-title">小紫的探索筆記</h1>
+                    <img class="hero-image" src="小紫形象.png" alt="小紫的個人形象照">
+                    
+                    <p>這裡未來會放：一句話自我介紹、核心職稱（Event Planner）和行動呼籲（例如：瀏覽作品集、下載履歷）。</p>
+                    <p>之後會用 Section SDD 的 Prompt 產生正式文案與版面，再把整個 section 貼回這兩個註解中間，完全取代現在這一區。</p>
+                </div>
+            </section>
+            <section id="about" class="section section-about" aria-labelledby="about-heading">
+                <div class="container">
+                    <h2 id="about-heading" class="section-title">關於我</h2>
+                    
+                    <div class="about-content-layout"> 
+                        
+                        <div class="about-content-text">
+                            <p>
+                                我是小紫，一位開發探索者 (Event Explorer)，專注於發現、探索與知識傳遞。我現在主要在做的是Event Planner、活動策劃和文章分享。我的核心技能在於將複雜的資訊系統化、並以友善的方式呈現給大眾。
+                            </p>
+                            <p>
+                                在專案和社群合作上，我非常重視事前溝通與文件化。我熱愛探險，喜歡把一個概念徹底釐清，保持「懷疑與好奇心」本身就是探索中最重要的工作。我的風格是：清晰、高效、樂於分享。
+                            </p>
+                            
+                            <h3 class="strengths-title">我的探索強項：</h3>
+                            <ul class="strengths-list">
+                                <li>系統化思維：擅長將混沌的需求轉化為清晰的架構藍圖。</li>
+                                <li>溝通橋樑：作為策劃者與開發者之間的溝通節點，確保訊息不失真。</li>
+                                <li>技術文件與教學：能夠產出高品質文件，加速團隊學習曲線。</li>
+                            </ul>
+
+                            <div class="about-actions">
+                                <a href="#projects" class="btn btn-primary">查看作品集</a>
+                                <a href="#contact" class="btn btn-secondary">聯絡我</a>
+                            </div>
+                        </div>
+                        
+                        <div class="about-content-image">
+                            <img src="https://source.unsplash.com/600x600/?coding,engineer,concentrate" alt="一位工程師在筆電前專心工作的形象照">
+                        </div>
+                        
+                    </div>
+                </div>
+            </section>
+            <section id="skills" class="section section-skills" aria-labelledby="skills-heading">
+                <div class="container">
+                    <h2 id="skills-heading" class="section-title">探索樹（之後會用 Section SDD 替換）</h2>
+                    <p>這裡目前是 Skills 區的占位內容，未來將會展示我解鎖的探索。</p>
+                    <div class="skill-item">占位探索卡片 #1</div>
+                    <div class="skill-item">占位解鎖卡片 #2</div>
+                    <p>之後會用 Section SDD 的 Prompt 產生新的 section，請把新的 section 程式碼整段貼在這兩個註解中間，完全取代現在這一區。</p>
+                </div>
+            </section>
+            <section id="projects" class="section section-projects" aria-labelledby="projects-heading">
+                <div class="container">
+                    <h2 id="projects-heading" class="section-title">作品集（之後會用 Section SDD 替換）</h2>
+                    <p>這裡目前是 Projects 區的占位內容，未來將會呈現我的 Side Project 截圖與連結。</p>
+                    <div class="project-card">占位作品卡片 #1</div>
+                    <div class="project-card">占位作品卡片 #2</div>
+                    <p>之後會用 Section SDD 的 Prompt 產生新的 section，請把新的 section 程式碼整段貼在這兩個註解中間，完全取代現在這一區。</p>
+                </div>
+            </section>
+            <section id="contact" class="section section-contact" aria-labelledby="contact-heading">
+                <div class="container">
+                    <h2 id="contact-heading" class="section-title">聯絡我（之後會用 Section SDD 替換）</h2>
+                    <p>這裡目前是 Contact 區的占位內容，將會提供我的 Email、GitHub 和 LinkedIn 連結。</p>
+                    <div class="contact-link-group">
+                    <div class="about-actions">
+                        <a href="mailto:contact@xiaopurple.dev">發送 Email</a>
+                        <a href="https://github.com/xiaopurple">GitHub 頁面</a>
+                        <a href="https://www.linkedin.com/in/xiaopurple">LinkedIn</a>
+                    </div>
+                    <p>之後會用 Section SDD 的 Prompt 產生新的 section，請把新的 section 程式碼整段貼在這兩個註解中間，完全取代現在這一區。</p>
+                </div>
+            </section>
+            </main>
+
+        <footer class="site-footer">
+            <div class="container">
+                <p style="text-align: center; padding: 32px 0;">© 2025 小紫 · Event Explorer. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
 </body>
 </html>
